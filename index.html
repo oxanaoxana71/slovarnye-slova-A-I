@@ -5,264 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тренажер правописания</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .container {
-            max-width: 600px;
-            width: 100%;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
-
-        header {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .main-content {
-            padding: 30px;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
-        }
-
-        .stat-item {
-            text-align: center;
-            flex: 1;
-        }
-
-        .stat-number {
-            display: block;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-        }
-
-        .question-card {
-            background: white;
-            border: 2px solid #e1e5e9;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 25px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .question-card h2 {
-            font-size: 2.5rem;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .question-hint {
-            color: #7f8c8d;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-        }
-
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .option-btn {
-            background: white;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
-            padding: 15px 20px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .option-btn:hover {
-            border-color: #4facfe;
-            background: #f8f9fa;
-            transform: translateY(-2px);
-        }
-
-        .option-btn.correct {
-            background: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-        }
-
-        .option-btn.incorrect {
-            background: #f8d7da;
-            border-color: #dc3545;
-            color: #721c24;
-        }
-
-        .option-btn:disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        .result {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .result p {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-
-        #result-text {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        #correct-answer {
-            color: #28a745;
-            font-weight: bold;
-        }
-
-        #next-question-btn {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        #next-question-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .progress {
-            margin-bottom: 30px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #ecf0f1;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-            width: 0%;
-        }
-
-        #progress-text {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            text-align: center;
-            display: block;
-        }
-
-        .game-controls {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .game-controls button {
-            background: #17a2b8;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .game-controls button:hover {
-            background: #138496;
-            transform: scale(1.05);
-        }
-
-        .hidden {
-            display: none;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; display: flex; justify-content: center; align-items: center; }
+        .container { max-width: 600px; width: 100%; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden; }
+        header { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); color: white; padding: 30px 20px; text-align: center; }
+        header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        header p { font-size: 1.1rem; opacity: 0.9; }
+        .main-content { padding: 30px; }
+        .stats { display: flex; justify-content: space-between; margin-bottom: 30px; background: #f8f9fa; padding: 20px; border-radius: 15px; }
+        .stat-item { text-align: center; flex: 1; }
+        .stat-number { display: block; font-size: 2rem; font-weight: bold; color: #2c3e50; }
+        .stat-label { font-size: 0.9rem; color: #7f8c8d; }
+        .question-card { background: white; border: 2px solid #e1e5e9; border-radius: 15px; padding: 30px; margin-bottom: 25px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .question-card h2 { font-size: 2.5rem; color: #2c3e50; margin-bottom: 15px; min-height: 60px; display: flex; align-items: center; justify-content: center; }
+        .question-hint { color: #7f8c8d; margin-bottom: 25px; font-size: 1.1rem; }
+        .options-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .option-btn { background: white; border: 2px solid #e1e5e9; border-radius: 12px; padding: 15px 20px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; text-align: center; }
+        .option-btn:hover { border-color: #4facfe; background: #f8f9fa; transform: translateY(-2px); }
+        .option-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+        .option-btn.incorrect { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+        .option-btn:disabled { cursor: not-allowed; opacity: 0.7; }
+        .result { background: #f8f9fa; border-radius: 12px; padding: 20px; margin-top: 20px; }
+        .result p { margin-bottom: 15px; font-size: 1.1rem; }
+        #result-text { font-weight: bold; font-size: 1.2rem; }
+        #correct-answer { color: #28a745; font-weight: bold; }
+        #next-question-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; width: 100%; }
+        #next-question-btn:hover { transform: scale(1.05); }
+        .progress { margin-bottom: 30px; }
+        .progress-bar { width: 100%; height: 8px; background: #ecf0f1; border-radius: 4px; margin-bottom: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 4px; transition: width 0.3s ease; width: 0%; }
+        #progress-text { font-size: 0.9rem; color: #7f8c8d; text-align: center; display: block; }
+        .game-controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .game-controls button { background: #17a2b8; color: white; border: none; padding: 12px 20px; border-radius: 10px; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; }
+        .game-controls button:hover { background: #138496; transform: scale(1.05); }
+        .hidden { display: none; }
         @media (max-width: 600px) {
-            .container {
-                margin: 10px;
-                border-radius: 15px;
-            }
-            
-            .main-content {
-                padding: 20px;
-            }
-            
-            .question-card {
-                padding: 20px;
-            }
-            
-            .question-card h2 {
-                font-size: 2rem;
-            }
-            
-            .option-btn {
-                padding: 12px 15px;
-                font-size: 1rem;
-            }
-            
-            header h1 {
-                font-size: 1.8rem;
-            }
+            .container { margin: 10px; border-radius: 15px; }
+            .main-content { padding: 20px; }
+            .question-card { padding: 20px; }
+            .question-card h2 { font-size: 2rem; }
+            .option-btn { padding: 12px 15px; font-size: 1rem; }
+            header h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -272,45 +55,26 @@
             <h1>🔍 Тренажер правописания</h1>
             <p>Выберите правильный вариант написания слова</p>
         </header>
-
         <div class="main-content">
             <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-number" id="current-question">1</span>
-                    <span class="stat-label">вопрос</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="score">0</span>
-                    <span class="stat-label">правильно</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="total-questions">30</span>
-                    <span class="stat-label">всего</span>
-                </div>
+                <div class="stat-item"><span class="stat-number" id="current-question">1</span><span class="stat-label">вопрос</span></div>
+                <div class="stat-item"><span class="stat-number" id="score">0</span><span class="stat-label">правильно</span></div>
+                <div class="stat-item"><span class="stat-number" id="total-questions">30</span><span class="stat-label">всего</span></div>
             </div>
-
             <div class="question-card">
-                <h2 id="question-word">Слово</h2>
+                <!-- УБРАЛ ПОКАЗ ПРАВИЛЬНОГО СЛОВА - ТОЛЬКО ФРАЗА -->
                 <p class="question-hint">Выберите правильный вариант написания:</p>
-                
-                <div class="options-container" id="options-container">
-                    <!-- Здесь появятся 3 варианта одного слова -->
-                </div>
-
+                <div class="options-container" id="options-container"></div>
                 <div class="result hidden" id="result">
                     <p id="result-text"></p>
                     <p id="correct-answer"></p>
                     <button id="next-question-btn">Следующий вопрос</button>
                 </div>
             </div>
-
             <div class="progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
-                </div>
+                <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
                 <span id="progress-text">Прогресс: 0%</span>
             </div>
-
             <div class="game-controls">
                 <button id="new-game-btn">Новая игра</button>
             </div>
@@ -319,20 +83,22 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const questionWordElement = document.getElementById('question-word');
-            const optionsContainer = document.getElementById('options-container');
-            const resultElement = document.getElementById('result');
-            const resultTextElement = document.getElementById('result-text');
-            const correctAnswerElement = document.getElementById('correct-answer');
-            const nextQuestionBtn = document.getElementById('next-question-btn');
-            const currentQuestionElement = document.getElementById('current-question');
-            const scoreElement = document.getElementById('score');
-            const totalQuestionsElement = document.getElementById('total-questions');
-            const progressFill = document.getElementById('progress-fill');
-            const progressText = document.getElementById('progress-text');
-            const newGameBtn = document.getElementById('new-game-btn');
-            
-            // СЛОВАРЬ ИЗ 150 СЛОВ С 3 ВАРИАНТАМИ КАЖДОГО
+            const elements = {
+                questionWord: document.getElementById('question-word'),
+                optionsContainer: document.getElementById('options-container'),
+                result: document.getElementById('result'),
+                resultText: document.getElementById('result-text'),
+                correctAnswer: document.getElementById('correct-answer'),
+                nextQuestionBtn: document.getElementById('next-question-btn'),
+                currentQuestion: document.getElementById('current-question'),
+                score: document.getElementById('score'),
+                totalQuestions: document.getElementById('total-questions'),
+                progressFill: document.getElementById('progress-fill'),
+                progressText: document.getElementById('progress-text'),
+                newGameBtn: document.getElementById('new-game-btn')
+            };
+
+            // ПОЛНЫЙ СЛОВАРЬ ИЗ 150 СЛОВ
             const vocabulary = [
                 { word: "абитуриент", correct: "абитуриент", options: ["абитуриент", "абетуриент", "обитуриент"] },
                 { word: "абонемент", correct: "абонемент", options: ["абонемент", "обонемент", "абанемент"] },
@@ -487,31 +253,21 @@
                 { word: "капюшон", correct: "капюшон", options: ["капюшон", "капишон", "капюшён"] },
                 { word: "кардинальный", correct: "кардинальный", options: ["кардинальный", "координальный", "кординальный"] }
             ];
-            
+
             let currentQuestionIndex = 0;
             let score = 0;
             let totalQuestions = 30;
             let gameWords = [];
-            
-            function init() {
-                startNewGame();
-                setupEventListeners();
-            }
-            
+
             function startNewGame() {
                 currentQuestionIndex = 0;
                 score = 0;
                 // Выбираем случайные 30 слов из 150
-                gameWords = getRandomWords(totalQuestions);
+                gameWords = [...vocabulary].sort(() => Math.random() - 0.5).slice(0, totalQuestions);
                 updateStats();
                 showQuestion();
             }
-            
-                       function getRandomWords(count) {
-                const shuffled = [...vocabulary].sort(() => Math.random() - 0.5);
-                return shuffled.slice(0, count);
-            }
-            
+
             function showQuestion() {
                 if (currentQuestionIndex >= totalQuestions) {
                     endGame();
@@ -519,84 +275,73 @@
                 }
                 
                 const currentWord = gameWords[currentQuestionIndex];
-                questionWordElement.textContent = currentWord.word;
-                
-                // Берем готовые 3 варианта из словаря и перемешиваем
+                // УБРАЛ ПОКАЗ СЛОВА - ТОЛЬКО ВАРИАНТЫ
                 const shuffledOptions = shuffleArray([...currentWord.options]);
                 renderOptions(shuffledOptions, currentWord.correct);
                 
-                resultElement.classList.add('hidden');
+                elements.result.classList.add('hidden');
                 updateProgress();
             }
-            
+
             function renderOptions(options, correctAnswer) {
-                optionsContainer.innerHTML = '';
-                
+                elements.optionsContainer.innerHTML = '';
                 options.forEach(option => {
                     const button = document.createElement('button');
                     button.className = 'option-btn';
                     button.textContent = option;
                     button.addEventListener('click', () => checkAnswer(option, correctAnswer));
-                    optionsContainer.appendChild(button);
+                    elements.optionsContainer.appendChild(button);
                 });
             }
-            
+
             function checkAnswer(selectedAnswer, correctAnswer) {
-                const optionButtons = document.querySelectorAll('.option-btn');
-                
-                optionButtons.forEach(btn => {
+                const buttons = document.querySelectorAll('.option-btn');
+                buttons.forEach(btn => {
                     btn.disabled = true;
-                    if (btn.textContent === correctAnswer) {
-                        btn.classList.add('correct');
-                    }
-                    if (btn.textContent === selectedAnswer && selectedAnswer !== correctAnswer) {
-                        btn.classList.add('incorrect');
-                    }
+                    if (btn.textContent === correctAnswer) btn.classList.add('correct');
+                    if (btn.textContent === selectedAnswer && selectedAnswer !== correctAnswer) btn.classList.add('incorrect');
                 });
-                
-                resultElement.classList.remove('hidden');
-                
+
+                                 elements.result.classList.remove('hidden');
                 if (selectedAnswer === correctAnswer) {
-                    resultTextElement.textContent = '✅ Правильно!';
-                    resultTextElement.style.color = '#28a745';
+                    elements.resultText.textContent = '✅ Правильно!';
+                    elements.resultText.style.color = '#28a745';
                     score++;
                 } else {
-                    resultTextElement.textContent = '❌ Неправильно';
-                    resultTextElement.style.color = '#dc3545';
-                    correctAnswerElement.textContent = `Правильный ответ: ${correctAnswer}`;
+                    elements.resultText.textContent = '❌ Неправильно';
+                    elements.resultText.style.color = '#dc3545';
+                    elements.correctAnswer.textContent = `Правильный ответ: ${correctAnswer}`;
                 }
-                
                 updateStats();
             }
-            
+
             function nextQuestion() {
                 currentQuestionIndex++;
                 showQuestion();
             }
-            
+
             function endGame() {
-                questionWordElement.textContent = 'Тест завершен!';
-                optionsContainer.innerHTML = '';
-                resultElement.classList.remove('hidden');
-                resultTextElement.textContent = `Ваш результат: ${score} из ${totalQuestions}`;
-                resultTextElement.style.color = '#2c3e50';
-                correctAnswerElement.textContent = `Правильных ответов: ${Math.round((score / totalQuestions) * 100)}%`;
-                nextQuestionBtn.textContent = 'Начать заново';
-                nextQuestionBtn.onclick = startNewGame;
+                elements.optionsContainer.innerHTML = '';
+                elements.result.classList.remove('hidden');
+                elements.resultText.textContent = `Тест завершен! Результат: ${score} из ${totalQuestions}`;
+                elements.resultText.style.color = '#2c3e50';
+                elements.correctAnswer.textContent = `Правильных ответов: ${Math.round((score / totalQuestions) * 100)}%`;
+                elements.nextQuestionBtn.textContent = 'Начать заново';
+                elements.nextQuestionBtn.onclick = startNewGame;
             }
-            
+
             function updateStats() {
-                currentQuestionElement.textContent = currentQuestionIndex + 1;
-                scoreElement.textContent = score;
-                totalQuestionsElement.textContent = totalQuestions;
+                elements.currentQuestion.textContent = currentQuestionIndex + 1;
+                elements.score.textContent = score;
+                elements.totalQuestions.textContent = totalQuestions;
             }
-            
+
             function updateProgress() {
-                const progress = totalQuestions > 0 ? Math.round((currentQuestionIndex / totalQuestions) * 100) : 0;
-                progressFill.style.width = `${progress}%`;
-                progressText.textContent = `Прогресс: ${progress}%`;
+                const progress = Math.round((currentQuestionIndex / totalQuestions) * 100);
+                elements.progressFill.style.width = `${progress}%`;
+                elements.progressText.textContent = `Прогресс: ${progress}%`;
             }
-            
+
             function shuffleArray(array) {
                 for (let i = array.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -604,13 +349,11 @@
                 }
                 return array;
             }
-            
-            function setupEventListeners() {
-                nextQuestionBtn.addEventListener('click', nextQuestion);
-                newGameBtn.addEventListener('click', startNewGame);
-            }
-            
-            init();
+
+            // Инициализация
+            elements.nextQuestionBtn.addEventListener('click', nextQuestion);
+            elements.newGameBtn.addEventListener('click', startNewGame);
+            startNewGame();
         });
     </script>
 </body>
