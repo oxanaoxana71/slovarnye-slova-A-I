@@ -74,6 +74,8 @@
             color: #2c3e50;
             min-height: 60px;
             font-weight: bold;
+            /* единственное изменение: слово не видно */
+            visibility: hidden;
         }
         
         .options-container {
@@ -294,7 +296,7 @@
             <div class="question-card">
                 <p class="question-hint">Выберите правильный вариант написания:</p>
                 
-                <!-- Элемент для отображения слова (оставлен пустым, чтобы не показывать правильный ответ) -->
+                <!-- Элемент для отображения слова -->
                 <h2 id="question-word"></h2>
                 
                 <div class="options-container" id="options-container">
@@ -627,8 +629,8 @@
                 
                 const currentWord = gameWords[currentQuestionIndex];
                 
-                // Больше НЕ показываем правильное слово под подсказкой
-                questionWordElement.textContent = "";
+                // ОТОБРАЖАЕМ СЛОВО (останется невидимым из-за visibility: hidden)
+                questionWordElement.textContent = currentWord.correct;
                 
                 const shuffledOptions = shuffleArray([...currentWord.options]);
                 renderOptions(shuffledOptions, currentWord.correct);
@@ -772,5 +774,7 @@
     </script>
 </body>
 </html>
+
+
 
 
