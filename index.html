@@ -257,9 +257,16 @@
             let isGameActive = false;
 
             function startNewGame() {
-                currentQuestionIndex = 0;
-                score = 0;
-                mistakes = 0;
+          // Сброс кнопки "Следующий вопрос" на начальное состояние
+          elements.nextQuestionBtn.textContent = 'Следующий вопрос';
+          elements.nextQuestionBtn.onclick = nextQuestion;
+    
+            currentQuestionIndex = 0;
+           score = 0;
+            mistakes = 0;
+             isGameActive = true;  // Важно: активируем игру!
+    
+              }
                 
                 // Если есть слова с ошибками из предыдущей игры, добавляем их
                 let wordsWithMistakes = [];
@@ -365,13 +372,15 @@
             }
 
             function endGame() {
-                isGameActive = false;
-                elements.optionsContainer.innerHTML = '';
-                elements.result.classList.remove('hidden');
-                elements.resultText.textContent = `Тест завершен! Правильных ответов: ${score} из ${totalQuestions}`;
-                elements.resultText.style.color = '#2c3e50';
-                elements.nextQuestionBtn.textContent = 'Начать новую игру';
-                elements.nextQuestionBtn.onclick = startNewGame;
+            isGameActive = false;
+            elements.optionsContainer.innerHTML = '';
+            elements.result.classList.remove('hidden');
+            elements.resultText.textContent = `Тест завершен! Правильных ответов: ${score} из ${totalQuestions}`;
+            elements.resultText.style.color = '#2c3e50';
+    
+           // Меняем кнопку только здесь, в конце игры
+           elements.nextQuestionBtn.textContent = 'Начать новую игру';
+        elements.nextQuestionBtn.onclick = startNewGame;
             }
 
             function updateStats() {
@@ -402,5 +411,6 @@
     </script>
 </body>
 </html>
+
 
 
