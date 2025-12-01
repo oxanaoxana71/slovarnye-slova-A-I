@@ -261,6 +261,7 @@
                 elements.nextQuestionBtn.textContent = 'Следующий вопрос';
                 elements.nextQuestionBtn.onclick = nextQuestion;
                 
+                // Сбрасываем счетчик на 0
                 currentQuestionIndex = 0;
                 score = 0;
                 mistakes = 0;
@@ -358,9 +359,15 @@
             }
 
             function nextQuestion() {
-                if (!isGameActive) return;
+                // УБИРАЕМ проверку isGameActive - кнопка всегда должна работать
                 
+                // УВЕЛИЧИВАЕМ счетчик вопроса
                 currentQuestionIndex++;
+                
+                // Обновляем статистику
+                updateStats();
+                
+                // Показываем следующий вопрос
                 showQuestion();
             }
 
