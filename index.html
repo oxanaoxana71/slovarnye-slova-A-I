@@ -612,14 +612,21 @@
                         mistakeWords.add(currentWord.correct);
                         saveMistakes();
                     }
-                }
-                updateStats();
+               function updateStats() {
+           // Используем currentQuestionIndex + 1 для отображения
+           currentQuestionElement.textContent = currentQuestionIndex + 1;
+           scoreElement.textContent = score;
+          totalQuestionsElement.textContent = totalQuestions;
+ 
             }
             
-            function nextQuestion() {
-                currentQuestionIndex++;
-                showQuestion();
-            }
+          function nextQuestion() {
+          currentQuestionIndex++;
+        // Обновляем статистику перед показом следующего вопроса
+        updateStats();
+        updateProgress();
+     showQuestion();
+              }
             
             function endGame() {
                 gameActive = false;
@@ -646,11 +653,12 @@
                 nextQuestionBtn.onclick = startNewGame;
             }
             
-            function updateStats() {
-                currentQuestionElement.textContent = currentQuestionIndex + 1;
-                scoreElement.textContent = score;
-                totalQuestionsElement.textContent = totalQuestions;
-            }
+           function updateStats() {
+    // Используем currentQuestionIndex + 1 для отображения
+    currentQuestionElement.textContent = currentQuestionIndex + 1;
+    scoreElement.textContent = score;
+    totalQuestionsElement.textContent = totalQuestions;
+}
             
             function updateProgress() {
                 const progress = totalQuestions > 0 ? Math.round((currentQuestionIndex / totalQuestions) * 100) : 0;
@@ -689,3 +697,4 @@
     </script>
 </body>
 </html>
+
