@@ -37,6 +37,13 @@
         .game-controls button { background: #17a2b8; color: white; border: none; padding: 12px 20px; border-radius: 10px; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; }
         .game-controls button:hover { background: #138496; transform: scale(1.05); }
         .hidden { display: none; }
+        
+        .final-results { text-align: center; padding: 20px; }
+        .final-score { font-size: 2.5rem; font-weight: bold; margin: 20px 0; color: #2c3e50; }
+        .mistakes-count { font-size: 1.5rem; color: #e74c3c; margin-bottom: 30px; }
+        .restart-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; border: none; padding: 15px 40px; border-radius: 30px; font-size: 1.2rem; cursor: pointer; transition: all 0.3s ease; display: inline-block; }
+        .restart-btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        
         @media (max-width: 600px) {
             .container { margin: 10px; border-radius: 15px; }
             .main-content { padding: 20px; }
@@ -58,7 +65,7 @@
                 <div class="stat-item"><span class="stat-number" id="score">0</span><span class="stat-label">правильно</span></div>
                 <div class="stat-item"><span class="stat-number" id="total-questions">30</span><span class="stat-label">всего</span></div>
             </div>
-            <div class="question-card">
+            <div class="question-card" id="question-card">
                 <p class="question-hint">Выберите правильный вариант написания:</p>
                 <div class="options-container" id="options-container"></div>
                 <div class="result hidden" id="result">
@@ -70,6 +77,12 @@
                 <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
                 <span id="progress-text">Прогресс: 0%</span>
             </div>
+            <div class="final-results hidden" id="final-results">
+                <h2>🎉 Игра завершена!</h2>
+                <div class="final-score" id="final-score"></div>
+                <div class="mistakes-count" id="mistakes-count"></div>
+                <button class="restart-btn" id="auto-restart-btn">Новая игра</button>
+            </div>
             <div class="game-controls">
                 <button id="new-game-btn">Новая игра</button>
             </div>
@@ -80,6 +93,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const elements = {
                 optionsContainer: document.getElementById('options-container'),
+                questionCard: document.getElementById('question-card'),
                 result: document.getElementById('result'),
                 resultText: document.getElementById('result-text'),
                 nextQuestionBtn: document.getElementById('next-question-btn'),
@@ -88,10 +102,13 @@
                 totalQuestions: document.getElementById('total-questions'),
                 progressFill: document.getElementById('progress-fill'),
                 progressText: document.getElementById('progress-text'),
-                newGameBtn: document.getElementById('new-game-btn')
+                newGameBtn: document.getElementById('new-game-btn'),
+                finalResults: document.getElementById('final-results'),
+                finalScore: document.getElementById('final-score'),
+                mistakesCount: document.getElementById('mistakes-count'),
+                autoRestartBtn: document.getElementById('auto-restart-btn')
             };
 
-            // СЛОВАРЬ БЕЗ ЛИШНЕГО word - ТОЛЬКО correct И options
             const vocabulary = [
                 { correct: "абитуриент", options: ["абитуриент", "абетуриент", "обитуриент"] },
                 { correct: "абонемент", options: ["абонемент", "обонемент", "абанемент"] },
@@ -208,7 +225,7 @@
                 { correct: "дистанция", options: ["дистанция", "дистанцыя", "дестанция"] },
                 { correct: "дистанционный", options: ["дистанционный", "дистанционый", "дестанционный"] },
                 { correct: "дисциплина", options: ["дисциплина", "дисцеплина", "дисцыплина"] },
-                { correct: "желание", options: ["желание", "желание", "жылание"] },
+                { correct: "желание", options: ["желание", "желанье", "жылание"] },
                 { correct: "желать", options: ["желать", "жылать", "жилать"] },
                 { correct: "жираф", options: ["жираф", "жыраф", "жераф"] },
                 { correct: "жокей", options: ["жокей", "жоккей", "жакей"] },
@@ -255,7 +272,15 @@
             function startNewGame() {
                 currentQuestionIndex = 0;
                 score = 0;
-                gameWords = [...vocabulary].sort(() => Math.random() - 0.5).slice(0, totalQuestions);
+                
+                // Выбираем случайные 30 слов из словаря
+                const shuffledVocabulary = [...vocabulary].sort(() => Math.random() - 0.5);
+                gameWords = shuffledVocabulary.slice(0, totalQuestions);
+                
+                // Скрываем результаты и показываем вопрос
+                elements.finalResults.classList.add('hidden');
+                elements.questionCard.classList.remove('hidden');
+                
                 updateStats();
                 showQuestion();
             }
@@ -311,12 +336,18 @@
             }
 
             function endGame() {
-                elements.optionsContainer.innerHTML = '';
-                elements.result.classList.remove('hidden');
-                elements.resultText.textContent = `Тест завершен! Результат: ${score} из ${totalQuestions}`;
-                elements.resultText.style.color = '#2c3e50';
-                elements.nextQuestionBtn.textContent = 'Начать заново';
-                elements.nextQuestionBtn.onclick = startNewGame;
+                // Скрываем вопрос и показываем результаты
+                elements.questionCard.classList.add('hidden');
+                elements.finalResults.classList.remove('hidden');
+                
+                const mistakes = totalQuestions - score;
+                
+                // Отображаем результаты
+                elements.finalScore.textContent = `${score} из ${totalQuestions}`;
+                elements.mistakesCount.textContent = `Ошибок: ${mistakes}`;
+                
+                // Настраиваем кнопку для новой игры
+                updateStats();
             }
 
             function updateStats() {
@@ -339,10 +370,16 @@
                 return array;
             }
 
+            // Инициализация обработчиков событий
             elements.nextQuestionBtn.addEventListener('click', nextQuestion);
             elements.newGameBtn.addEventListener('click', startNewGame);
+            elements.autoRestartBtn.addEventListener('click', startNewGame);
+            
+            // Начинаем первую игру
             startNewGame();
         });
     </script>
 </body>
 </html>
+</html>
+
