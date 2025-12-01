@@ -254,6 +254,7 @@
             let totalQuestions = 30;
             let gameWords = [];
             let wrongAnswers = new Set(); // Для хранения слов, в которых были ошибки
+            let isGameActive = false;
 
             function startNewGame() {
                 currentQuestionIndex = 0;
@@ -271,34 +272,41 @@
                 remainingWords = shuffleArray(remainingWords);
                 
                 // Формируем список слов для новой игры:
-                // 1. Берем слова с ошибками
+                // 1. Берем слова с ошибками (максимум 15)
+                let mistakeWords = wordsWithMistakes.slice(0, 15);
+                
                 // 2. Добавляем случайные слова до достижения 30
-                gameWords = [...wordsWithMistakes];
-                let neededWords = totalQuestions - gameWords.length;
+                let neededWords = totalQuestions - mistakeWords.length;
+                let randomWords = remainingWords.slice(0, neededWords);
                 
-                if (neededWords > 0 && remainingWords.length > 0) {
-                    // Берем только нужное количество слов
-                    let additionalWords = remainingWords.slice(0, Math.min(neededWords, remainingWords.length));
-                    gameWords = [...gameWords, ...additionalWords];
-                }
-                
-                // Если все равно меньше 30, дублируем
-                while (gameWords.length < totalQuestions && vocabulary.length > 0) {
-                    let randomWord = vocabulary[Math.floor(Math.random() * vocabulary.length)];
-                    gameWords.push(randomWord);
+                // 3. Если все равно меньше 30, добавляем случайные слова из всего словаря
+                if (mistakeWords.length + randomWords.length < totalQuestions) {
+                    let allWords = shuffleArray([...vocabulary]);
+                    let additionalNeeded = totalQuestions - (mistakeWords.length + randomWords.length);
+                    let additionalWords = allWords.slice(0, additionalNeeded);
+                    gameWords = [...mistakeWords, ...randomWords, ...additionalWords];
+                } else {
+                    gameWords = [...mistakeWords, ...randomWords];
                 }
                 
                 // Перемешиваем конечный список
                 gameWords = shuffleArray(gameWords);
                 
-                // Очищаем ошибки для новой игры
-                wrongAnswers.clear();
+                // Обрезаем до 30 слов на всякий случай
+                gameWords = gameWords.slice(0, totalQuestions);
+                
+                // Сбрасываем кнопку "Следующий вопрос" на стандартный текст
+                elements.nextQuestionBtn.textContent = 'Следующий вопрос';
+                elements.nextQuestionBtn.onclick = nextQuestion;
                 
                 updateStats();
                 showQuestion();
+                isGameActive = true;
             }
 
             function showQuestion() {
+                if (!isGameActive) return;
+                
                 if (currentQuestionIndex >= totalQuestions) {
                     endGame();
                     return;
@@ -324,6 +332,8 @@
             }
 
             function checkAnswer(selectedAnswer, correctAnswer) {
+                if (!isGameActive) return;
+                
                 const buttons = document.querySelectorAll('.option-btn');
                 buttons.forEach(btn => {
                     btn.disabled = true;
@@ -348,11 +358,14 @@
             }
 
             function nextQuestion() {
+                if (!isGameActive) return;
+                
                 currentQuestionIndex++;
                 showQuestion();
             }
 
             function endGame() {
+                isGameActive = false;
                 elements.optionsContainer.innerHTML = '';
                 elements.result.classList.remove('hidden');
                 elements.resultText.textContent = `Тест завершен! Правильных ответов: ${score} из ${totalQuestions}`;
@@ -389,4 +402,5 @@
     </script>
 </body>
 </html>
+
 
