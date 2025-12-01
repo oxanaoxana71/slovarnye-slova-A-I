@@ -56,6 +56,7 @@
             <div class="stats">
                 <div class="stat-item"><span class="stat-number" id="current-question">1</span><span class="stat-label">вопрос</span></div>
                 <div class="stat-item"><span class="stat-number" id="score">0</span><span class="stat-label">правильно</span></div>
+                <div class="stat-item"><span class="stat-number" id="mistakes">0</span><span class="stat-label">ошибок</span></div>
                 <div class="stat-item"><span class="stat-number" id="total-questions">30</span><span class="stat-label">всего</span></div>
             </div>
             <div class="question-card">
@@ -85,13 +86,13 @@
                 nextQuestionBtn: document.getElementById('next-question-btn'),
                 currentQuestion: document.getElementById('current-question'),
                 score: document.getElementById('score'),
+                mistakes: document.getElementById('mistakes'),
                 totalQuestions: document.getElementById('total-questions'),
                 progressFill: document.getElementById('progress-fill'),
                 progressText: document.getElementById('progress-text'),
                 newGameBtn: document.getElementById('new-game-btn')
             };
 
-            // СЛОВАРЬ БЕЗ ЛИШНЕГО word - ТОЛЬКО correct И options
             const vocabulary = [
                 { correct: "абитуриент", options: ["абитуриент", "абетуриент", "обитуриент"] },
                 { correct: "абонемент", options: ["абонемент", "обонемент", "абанемент"] },
@@ -208,7 +209,7 @@
                 { correct: "дистанция", options: ["дистанция", "дистанцыя", "дестанция"] },
                 { correct: "дистанционный", options: ["дистанционный", "дистанционый", "дестанционный"] },
                 { correct: "дисциплина", options: ["дисциплина", "дисцеплина", "дисцыплина"] },
-                { correct: "желание", options: ["желание", "желанье", "жылание"] },
+                { correct: "желание", options: ["желание", "желание", "жылание"] },
                 { correct: "желать", options: ["желать", "жылать", "жилать"] },
                 { correct: "жираф", options: ["жираф", "жыраф", "жераф"] },
                 { correct: "жокей", options: ["жокей", "жоккей", "жакей"] },
@@ -249,13 +250,50 @@
 
             let currentQuestionIndex = 0;
             let score = 0;
+            let mistakes = 0;
             let totalQuestions = 30;
             let gameWords = [];
+            let wrongAnswers = new Set(); // Для хранения слов, в которых были ошибки
 
             function startNewGame() {
                 currentQuestionIndex = 0;
                 score = 0;
-                gameWords = [...vocabulary].sort(() => Math.random() - 0.5).slice(0, totalQuestions);
+                mistakes = 0;
+                
+                // Если есть слова с ошибками из предыдущей игры, добавляем их
+                let wordsWithMistakes = [];
+                if (wrongAnswers.size > 0) {
+                    wordsWithMistakes = vocabulary.filter(word => wrongAnswers.has(word.correct));
+                }
+                
+                // Выбираем оставшиеся слова случайным образом
+                let remainingWords = vocabulary.filter(word => !wrongAnswers.has(word.correct));
+                remainingWords = shuffleArray(remainingWords);
+                
+                // Формируем список слов для новой игры:
+                // 1. Берем слова с ошибками
+                // 2. Добавляем случайные слова до достижения 30
+                gameWords = [...wordsWithMistakes];
+                let neededWords = totalQuestions - gameWords.length;
+                
+                if (neededWords > 0 && remainingWords.length > 0) {
+                    // Берем только нужное количество слов
+                    let additionalWords = remainingWords.slice(0, Math.min(neededWords, remainingWords.length));
+                    gameWords = [...gameWords, ...additionalWords];
+                }
+                
+                // Если все равно меньше 30, дублируем
+                while (gameWords.length < totalQuestions && vocabulary.length > 0) {
+                    let randomWord = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+                    gameWords.push(randomWord);
+                }
+                
+                // Перемешиваем конечный список
+                gameWords = shuffleArray(gameWords);
+                
+                // Очищаем ошибки для новой игры
+                wrongAnswers.clear();
+                
                 updateStats();
                 showQuestion();
             }
@@ -301,6 +339,10 @@
                 } else {
                     elements.resultText.textContent = '❌ Неправильно';
                     elements.resultText.style.color = '#dc3545';
+                    mistakes++;
+                    // Добавляем слово в список ошибок
+                    const currentWord = gameWords[currentQuestionIndex];
+                    wrongAnswers.add(currentWord.correct);
                 }
                 updateStats();
             }
@@ -313,15 +355,16 @@
             function endGame() {
                 elements.optionsContainer.innerHTML = '';
                 elements.result.classList.remove('hidden');
-                elements.resultText.textContent = `Тест завершен! Результат: ${score} из ${totalQuestions}`;
+                elements.resultText.textContent = `Тест завершен! Правильных ответов: ${score} из ${totalQuestions}`;
                 elements.resultText.style.color = '#2c3e50';
-                elements.nextQuestionBtn.textContent = 'Начать заново';
+                elements.nextQuestionBtn.textContent = 'Начать новую игру';
                 elements.nextQuestionBtn.onclick = startNewGame;
             }
 
             function updateStats() {
                 elements.currentQuestion.textContent = currentQuestionIndex + 1;
                 elements.score.textContent = score;
+                elements.mistakes.textContent = mistakes;
                 elements.totalQuestions.textContent = totalQuestions;
             }
 
@@ -346,5 +389,3 @@
     </script>
 </body>
 </html>
-
-
