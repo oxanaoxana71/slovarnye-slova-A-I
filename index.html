@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -64,8 +64,16 @@
         
         .question-hint {
             color: #7f8c8d;
-            margin-bottom: 25px;
+            margin-bottom: 10px;
             font-size: 1.2rem;
+        }
+        
+        #question-word {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            color: #2c3e50;
+            min-height: 60px;
+            font-weight: bold;
         }
         
         .options-container {
@@ -220,8 +228,9 @@
                 padding: 20px;
             }
             
-            .question-card h2 {
-                font-size: 2rem;
+            #question-word {
+                font-size: 1.8rem;
+                min-height: 50px;
             }
             
             .option-btn {
@@ -285,6 +294,9 @@
             <div class="question-card">
                 <p class="question-hint">Выберите правильный вариант написания:</p>
                 
+                <!-- Элемент для отображения слова -->
+                <h2 id="question-word"></h2>
+                
                 <div class="options-container" id="options-container">
                 </div>
                 
@@ -322,7 +334,7 @@
             // Переменные игры
             let currentQuestionIndex = 0;
             let score = 0;
-            let totalQuestions = 30;
+            const totalQuestions = 30;
             let gameWords = [];
             let mistakes = []; // Слова с ошибками
             let mistakeWords = new Set(); // Для быстрой проверки
@@ -335,7 +347,7 @@
             // Обновляем рекорд при загрузке
             bestScoreElement.textContent = bestScore;
             
-            // СЛОВАРЬ (первые 30 слов для примера)
+            // СЛОВАРЬ
             const vocabulary = [
                 { correct: "абитуриент", options: ["абитуриент", "абетуриент", "обитуриент"] },
                 { correct: "абонемент", options: ["абонемент", "обонемент", "абанемент"] },
@@ -356,8 +368,8 @@
                 { correct: "аппаратура", options: ["аппаратура", "апаратура", "аппарратура"] },
                 { correct: "аппетит", options: ["аппетит", "апетит", "апеттит"] },
                 { correct: "аромат", options: ["аромат", "арамат", "ароматт"] },
-                { correct: "ароматный", options: ["ароматный", "араматный", "ароматтный"] }
-                 { correct: "архитектор", options: ["архитектор", "архетектор", "архитектр"] },
+                { correct: "ароматный", options: ["ароматный", "араматный", "ароматтный"] },
+                { correct: "архитектор", options: ["архитектор", "архетектор", "архитектр"] },
                 { correct: "архитектура", options: ["архитектура", "архетектура", "архитектурра"] },
                 { correct: "асфальт", options: ["асфальт", "осфальт", "асвальт"] },
                 { correct: "асфальтировать", options: ["асфальтировать", "осфальтировать", "асвальтировать"] },
@@ -533,6 +545,8 @@
                 mistakeWords.clear();
                 saveMistakes();
                 alert('Ошибки очищены!');
+                // Перезапускаем игру для обновления списка слов
+                startNewGame();
             }
             
             // Инициализация
@@ -575,7 +589,8 @@
                 // 1. Добавляем слова с ошибками (до 10)
                 if (mistakes.length > 0) {
                     const mistakeCount = Math.min(mistakes.length, 10);
-                    words.push(...mistakes.slice(0, mistakeCount));
+                    const shuffledMistakes = shuffleArray([...mistakes]).slice(0, mistakeCount);
+                    words.push(...shuffledMistakes);
                 }
                 
                 // 2. Добавляем случайные слова до 30
@@ -587,18 +602,16 @@
                 );
                 
                 if (availableWords.length >= needed) {
-                    const randomWords = [...availableWords]
-                        .sort(() => Math.random() - 0.5)
-                        .slice(0, needed);
+                    const randomWords = shuffleArray([...availableWords]).slice(0, needed);
                     words.push(...randomWords);
                 } else {
                     // Если мало доступных слов, берем любые
                     words.push(...availableWords);
                     const remaining = totalQuestions - words.length;
-                    const extraWords = [...vocabulary]
-                        .sort(() => Math.random() - 0.5)
-                        .slice(0, remaining);
-                    words.push(...extraWords);
+                    if (remaining > 0) {
+                        const extraWords = shuffleArray([...vocabulary]).slice(0, remaining);
+                        words.push(...extraWords);
+                    }
                 }
                 
                 // Перемешиваем все слова
@@ -613,6 +626,10 @@
                 }
                 
                 const currentWord = gameWords[currentQuestionIndex];
+                
+                // ОТОБРАЖАЕМ СЛОВО
+                questionWordElement.textContent = currentWord.correct;
+                
                 const shuffledOptions = shuffleArray([...currentWord.options]);
                 renderOptions(shuffledOptions, currentWord.correct);
                 resultElement.classList.add('hidden');
