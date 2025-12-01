@@ -13,128 +13,233 @@
         header p { font-size: 1.1rem; opacity: 0.9; }
         .main-content { padding: 30px; }
         
-        /* Статистика */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        
-        .stat-number {
-            display: block;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            font-size: 0.85rem;
-            color: #7f8c8d;
-        }
-        
-        .timer-container {
+        /* Таймер */
+        .timer {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             color: white;
             padding: 15px;
             border-radius: 15px;
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        
-        .question-card { background: white; border: 2px solid #e1e5e9; border-radius: 15px; padding: 30px; margin-bottom: 25px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .question-hint { color: #7f8c8d; margin-bottom: 25px; font-size: 1.2rem; font-weight: 500; }
-        .options-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-        .option-btn { background: white; border: 2px solid #e1e5e9; border-radius: 12px; padding: 18px 20px; font-size: 1.2rem; cursor: pointer; transition: all 0.3s ease; text-align: center; }
-        .option-btn:hover { border-color: #4facfe; background: #f8f9fa; transform: translateY(-2px); }
-        .option-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
-        .option-btn.incorrect { background: #f8d7da; border-color: #dc3545; color: #721c24; }
-        .option-btn:disabled { cursor: not-allowed; opacity: 0.7; }
-        .result { background: #f8f9fa; border-radius: 12px; padding: 20px; margin-top: 20px; }
-        .result p { margin-bottom: 15px; font-size: 1.1rem; }
-        #result-text { font-weight: bold; font-size: 1.2rem; }
-        #next-question-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; border: none; padding: 15px 30px; border-radius: 25px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; width: 100%; margin-top: 10px; }
-        #next-question-btn:hover { transform: scale(1.05); }
-        .progress { margin-bottom: 30px; }
-        .progress-bar { width: 100%; height: 10px; background: #ecf0f1; border-radius: 5px; margin-bottom: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 5px; transition: width 0.3s ease; width: 0%; }
-        #progress-text { font-size: 1rem; color: #7f8c8d; text-align: center; display: block; }
-        .game-controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
-        .game-controls button { background: #17a2b8; color: white; border: none; padding: 15px 25px; border-radius: 10px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; }
-        .game-controls button:hover { background: #138496; transform: scale(1.05); }
-        #clear-mistakes-btn { background: #dc3545; }
-        #clear-mistakes-btn:hover { background: #c82333; }
-        
-        /* Итоговая статистика */
-        .final-stats {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        .final-stats h3 {
-            color: #2c3e50;
             margin-bottom: 20px;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: bold;
         }
         
-        .stats-row {
+        /* Статистика */
+        .stats {
             display: flex;
-            justify-content: space-around;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 15px;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
         }
         
-        .stat-item-final {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            min-width: 150px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        .stat-item {
+            text-align: center;
+            flex: 1;
         }
         
-        .stat-value {
-            font-size: 1.5rem;
+        .stat-number {
+            display: block;
+            font-size: 2rem;
             font-weight: bold;
             color: #2c3e50;
-            margin-bottom: 5px;
         }
         
-        .stat-name {
+        .stat-label {
             font-size: 0.9rem;
             color: #7f8c8d;
         }
         
-        .hidden { display: none; }
-        
-        @media (max-width: 768px) {
-            .container { margin: 10px; border-radius: 15px; }
-            .main-content { padding: 20px; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .question-card { padding: 20px; }
-            .option-btn { padding: 15px; font-size: 1.1rem; }
-            header h1 { font-size: 1.8rem; }
-            .stat-item-final { min-width: 120px; }
-            .game-controls { flex-direction: column; }
-            .game-controls button { width: 100%; }
+        .question-card {
+            background: white;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        @media (max-width: 480px) {
-            .stats-grid { grid-template-columns: 1fr; }
+        .question-hint {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+        }
+        
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .option-btn {
+            background: white;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            padding: 18px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .option-btn:hover {
+            border-color: #4facfe;
+            background: #f8f9fa;
+            transform: translateY(-2px);
+        }
+        
+        .option-btn.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        
+        .option-btn.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .result {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .result p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        #result-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        #next-question-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        #next-question-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .progress {
+            margin-bottom: 30px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        
+        #progress-text {
+            font-size: 1rem;
+            color: #7f8c8d;
+            text-align: center;
+            display: block;
+        }
+        
+        .game-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .game-controls button {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .game-controls button:hover {
+            background: #138496;
+            transform: scale(1.05);
+        }
+        
+        #clear-mistakes-btn {
+            background: #dc3545;
+        }
+        
+        #clear-mistakes-btn:hover {
+            background: #c82333;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .question-card {
+                padding: 20px;
+            }
+            
+            .question-card h2 {
+                font-size: 2rem;
+            }
+            
+            .option-btn {
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .game-controls {
+                flex-direction: column;
+            }
+            
+            .game-controls button {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -146,31 +251,30 @@
         </header>
         <div class="main-content">
             <!-- Таймер -->
-            <div class="timer-container">
-                <span id="timer">Время: 00:00</span>
+            <div class="timer">
+                <span id="timer-display">Время: 00:00</span>
             </div>
             
             <!-- Статистика -->
-            <div class="stats-grid">
-                <div class="stat-card">
+            <div class="stats">
+                <div class="stat-item">
                     <span class="stat-number" id="current-question">1</span>
                     <span class="stat-label">вопрос</span>
                 </div>
-                <div class="stat-card">
+                <div class="stat-item">
                     <span class="stat-number" id="score">0</span>
                     <span class="stat-label">правильно</span>
                 </div>
-                <div class="stat-card">
+                <div class="stat-item">
                     <span class="stat-number" id="total-questions">30</span>
                     <span class="stat-label">всего</span>
                 </div>
-                <div class="stat-card">
+                <div class="stat-item">
                     <span class="stat-number" id="best-score">0</span>
                     <span class="stat-label">рекорд</span>
                 </div>
             </div>
             
-            <!-- Прогресс -->
             <div class="progress">
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-fill"></div>
@@ -178,53 +282,21 @@
                 <span id="progress-text">Прогресс: 0%</span>
             </div>
             
-            <!-- Вопрос и варианты -->
             <div class="question-card">
                 <p class="question-hint">Выберите правильный вариант написания:</p>
-                <div class="options-container" id="options-container"></div>
+                
+                <div class="options-container" id="options-container">
+                </div>
+                
                 <div class="result hidden" id="result">
                     <p id="result-text"></p>
                     <button id="next-question-btn">Следующий вопрос</button>
                 </div>
             </div>
             
-            <!-- Кнопки управления -->
             <div class="game-controls">
                 <button id="new-game-btn">Новая игра</button>
                 <button id="clear-mistakes-btn">Очистить ошибки</button>
-            </div>
-            
-            <!-- Итоговая статистика -->
-            <div class="final-stats hidden" id="final-stats">
-                <h3>📊 Статистика игры</h3>
-                <div class="stats-row">
-                    <div class="stat-item-final">
-                        <div class="stat-value" id="final-score">0/30</div>
-                        <div class="stat-name">Правильных ответов</div>
-                    </div>
-                    <div class="stat-item-final">
-                        <div class="stat-value" id="final-time">00:00</div>
-                        <div class="stat-name">Общее время</div>
-                    </div>
-                    <div class="stat-item-final">
-                        <div class="stat-value" id="avg-time">0с</div>
-                        <div class="stat-name">Среднее время на вопрос</div>
-                    </div>
-                </div>
-                <div class="stats-row">
-                    <div class="stat-item-final">
-                        <div class="stat-value" id="accuracy">0%</div>
-                        <div class="stat-name">Точность</div>
-                    </div>
-                    <div class="stat-item-final">
-                        <div class="stat-value" id="best-time">--:--</div>
-                        <div class="stat-name">Лучшее время</div>
-                    </div>
-                    <div class="stat-item-final">
-                        <div class="stat-value" id="mistakes-to-repeat">0</div>
-                        <div class="stat-name">Слов для повторения</div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -232,51 +304,38 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Элементы
-            const elements = {
-                optionsContainer: document.getElementById('options-container'),
-                result: document.getElementById('result'),
-                resultText: document.getElementById('result-text'),
-                nextQuestionBtn: document.getElementById('next-question-btn'),
-                currentQuestion: document.getElementById('current-question'),
-                score: document.getElementById('score'),
-                totalQuestions: document.getElementById('total-questions'),
-                bestScore: document.getElementById('best-score'),
-                progressFill: document.getElementById('progress-fill'),
-                progressText: document.getElementById('progress-text'),
-                newGameBtn: document.getElementById('new-game-btn'),
-                clearMistakesBtn: document.getElementById('clear-mistakes-btn'),
-                timer: document.getElementById('timer'),
-                finalStats: document.getElementById('final-stats'),
-                finalScore: document.getElementById('final-score'),
-                finalTime: document.getElementById('final-time'),
-                avgTime: document.getElementById('avg-time'),
-                accuracy: document.getElementById('accuracy'),
-                bestTime: document.getElementById('best-time'),
-                mistakesToRepeat: document.getElementById('mistakes-to-repeat')
-            };
-
+            const questionWordElement = document.getElementById('question-word');
+            const optionsContainer = document.getElementById('options-container');
+            const resultElement = document.getElementById('result');
+            const resultTextElement = document.getElementById('result-text');
+            const nextQuestionBtn = document.getElementById('next-question-btn');
+            const currentQuestionElement = document.getElementById('current-question');
+            const scoreElement = document.getElementById('score');
+            const totalQuestionsElement = document.getElementById('total-questions');
+            const bestScoreElement = document.getElementById('best-score');
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            const newGameBtn = document.getElementById('new-game-btn');
+            const clearMistakesBtn = document.getElementById('clear-mistakes-btn');
+            const timerDisplay = document.getElementById('timer-display');
+            
             // Переменные игры
             let currentQuestionIndex = 0;
             let score = 0;
             let totalQuestions = 30;
             let gameWords = [];
+            let mistakes = []; // Слова с ошибками
+            let mistakeWords = new Set(); // Для быстрой проверки
+            let gameActive = false;
             let timerInterval = null;
             let startTime = null;
             let totalTime = 0;
-            let questionStartTime = null;
-            let questionTimes = [];
-            let bestScore = localStorage.getItem('bestScore') || 0;
-            let bestTime = localStorage.getItem('bestTime') || null;
+            let bestScore = localStorage.getItem('spellingBestScore') || 0;
             
-            // Система повторения ошибок
-            let mistakes = JSON.parse(localStorage.getItem('spellingMistakes')) || [];
-            let mistakeWords = new Set(mistakes.map(m => m.correct));
+            // Обновляем рекорд при загрузке
+            bestScoreElement.textContent = bestScore;
             
-            // Инициализация лучшего результата
-            elements.bestScore.textContent = bestScore;
-            updateMistakesCount();
-
-            // СЛОВАРЬ (первые 20 слов для примера - добавь остальные 130)
+            // СЛОВАРЬ (первые 30 слов для примера)
             const vocabulary = [
                 { correct: "абитуриент", options: ["абитуриент", "абетуриент", "обитуриент"] },
                 { correct: "абонемент", options: ["абонемент", "обонемент", "абанемент"] },
@@ -431,125 +490,121 @@
                 { correct: "капюшон", options: ["капюшон", "капишон", "капюшён"] },
                 { correct: "кардинальный", options: ["кардинальный", "координальный", "кординальный"] }
             ];
-
-            // Функция форматирования времени
-            function formatTime(seconds) {
-                const mins = Math.floor(seconds / 60);
-                const secs = Math.floor(seconds % 60);
-                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            }
-
-            // Запуск таймера
+            
+            // ТАЙМЕР
             function startTimer() {
                 if (timerInterval) clearInterval(timerInterval);
                 startTime = Date.now();
                 timerInterval = setInterval(updateTimer, 1000);
             }
-
-            // Обновление таймера
+            
             function updateTimer() {
                 if (!startTime) return;
                 totalTime = Math.floor((Date.now() - startTime) / 1000);
-                elements.timer.textContent = `Время: ${formatTime(totalTime)}`;
+                const minutes = Math.floor(totalTime / 60);
+                const seconds = totalTime % 60;
+                timerDisplay.textContent = `Время: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }
-
-            // Обновление счетчика ошибок
-            function updateMistakesCount() {
-                const count = mistakes.length;
-                if (count > 0) {
-                    elements.newGameBtn.innerHTML = `Новая игра <span style="font-size:0.8em; background:#ff6b6b; color:white; padding:2px 6px; border-radius:10px; margin-left:5px;">${count}</span>`;
-                } else {
-                    elements.newGameBtn.textContent = 'Новая игра';
+            
+            function stopTimer() {
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
                 }
-                elements.mistakesToRepeat.textContent = count;
             }
-
-            // Сохранение ошибок в localStorage
+            
+            // Загрузка ошибок из localStorage
+            function loadMistakes() {
+                const saved = localStorage.getItem('spellingMistakes');
+                if (saved) {
+                    mistakes = JSON.parse(saved);
+                    mistakeWords = new Set(mistakes.map(m => m.correct));
+                }
+            }
+            
+            // Сохранение ошибок
             function saveMistakes() {
                 localStorage.setItem('spellingMistakes', JSON.stringify(mistakes));
             }
-
+            
             // Очистка ошибок
             function clearMistakes() {
                 mistakes = [];
                 mistakeWords.clear();
                 saveMistakes();
-                updateMistakesCount();
                 alert('Ошибки очищены!');
             }
-
+            
+            // Инициализация
+            function init() {
+                loadMistakes();
+                startNewGame();
+                setupEventListeners();
+            }
+            
             // Начало новой игры
             function startNewGame() {
-                // Останавливаем старый таймер
-                if (timerInterval) {
-                    clearInterval(timerInterval);
-                    timerInterval = null;
-                }
+                // Останавливаем таймер
+                stopTimer();
                 
                 // Сброс переменных игры
                 currentQuestionIndex = 0;
                 score = 0;
                 totalTime = 0;
-                questionTimes = [];
-                startTime = null;
+                gameActive = true;
                 
-                // СОБИРАЕМ СЛОВА ДЛЯ НОВОЙ ИГРЫ:
-                let newGameWords = [];
+                // Выбираем слова для игры
+                gameWords = getGameWords();
                 
-                // 1. Добавляем слова с ошибками (до 10 штук)
+                // Сброс UI
+                updateStats();
+                showQuestion();
+                resultElement.classList.add('hidden');
+                timerDisplay.textContent = 'Время: 00:00';
+                nextQuestionBtn.textContent = 'Следующий вопрос';
+                nextQuestionBtn.onclick = nextQuestion;
+                
+                // Запуск таймера
+                startTimer();
+            }
+            
+            // Получение слов для игры
+            function getGameWords() {
+                let words = [];
+                
+                // 1. Добавляем слова с ошибками (до 10)
                 if (mistakes.length > 0) {
                     const mistakeCount = Math.min(mistakes.length, 10);
-                    // Берем ошибки в случайном порядке
-                    const randomMistakes = [...mistakes]
-                        .sort(() => Math.random() - 0.5)
-                        .slice(0, mistakeCount);
-                    newGameWords.push(...randomMistakes);
+                    words.push(...mistakes.slice(0, mistakeCount));
                 }
                 
-                // 2. Добавляем новые случайные слова
-                const neededWords = totalQuestions - newGameWords.length;
+                // 2. Добавляем случайные слова до 30
+                const needed = totalQuestions - words.length;
                 
-                // Фильтруем слова, которые не являются ошибками
+                // Слова, которые не являются ошибками
                 const availableWords = vocabulary.filter(word => 
                     !mistakeWords.has(word.correct)
                 );
                 
-                if (availableWords.length >= neededWords) {
+                if (availableWords.length >= needed) {
                     const randomWords = [...availableWords]
                         .sort(() => Math.random() - 0.5)
-                        .slice(0, neededWords);
-                    newGameWords.push(...randomWords);
+                        .slice(0, needed);
+                    words.push(...randomWords);
                 } else {
-                    // Если доступных слов мало, берем все доступные + добираем из любых
-                    newGameWords.push(...availableWords);
-                    const remainingWords = totalQuestions - newGameWords.length;
-                    
+                    // Если мало доступных слов, берем любые
+                    words.push(...availableWords);
+                    const remaining = totalQuestions - words.length;
                     const extraWords = [...vocabulary]
                         .sort(() => Math.random() - 0.5)
-                        .slice(0, remainingWords);
-                    newGameWords.push(...extraWords);
+                        .slice(0, remaining);
+                    words.push(...extraWords);
                 }
                 
                 // Перемешиваем все слова
-                gameWords = shuffleArray(newGameWords);
-                
-                // Сброс UI
-                elements.result.classList.add('hidden');
-                elements.finalStats.classList.add('hidden');
-                elements.nextQuestionBtn.textContent = 'Следующий вопрос';
-                elements.nextQuestionBtn.onclick = nextQuestion;
-                elements.timer.textContent = 'Время: 00:00';
-                
-                // Обновление статистики
-                updateStats();
-                
-                // Запуск таймера
-                startTimer();
-                
-                // Показать первый вопрос
-                showQuestion();
+                return shuffleArray(words);
             }
-
+            
             // Показать вопрос
             function showQuestion() {
                 if (currentQuestionIndex >= totalQuestions) {
@@ -558,143 +613,112 @@
                 }
                 
                 const currentWord = gameWords[currentQuestionIndex];
-                questionStartTime = Date.now();
-                
-                // Перемешиваем варианты
                 const shuffledOptions = shuffleArray([...currentWord.options]);
                 renderOptions(shuffledOptions, currentWord.correct);
-                
-                elements.result.classList.add('hidden');
+                resultElement.classList.add('hidden');
                 updateProgress();
             }
-
+            
             // Отображение вариантов
             function renderOptions(options, correctAnswer) {
-                elements.optionsContainer.innerHTML = '';
+                optionsContainer.innerHTML = '';
+                
                 options.forEach(option => {
                     const button = document.createElement('button');
                     button.className = 'option-btn';
                     button.textContent = option;
                     button.addEventListener('click', () => checkAnswer(option, correctAnswer));
-                    elements.optionsContainer.appendChild(button);
+                    optionsContainer.appendChild(button);
                 });
             }
-
+            
             // Проверка ответа
             function checkAnswer(selectedAnswer, correctAnswer) {
-                // Засекаем время ответа на вопрос
-                const questionTime = Math.floor((Date.now() - questionStartTime) / 1000);
-                questionTimes.push(questionTime);
+                const optionButtons = document.querySelectorAll('.option-btn');
                 
-                const buttons = document.querySelectorAll('.option-btn');
-                buttons.forEach(btn => {
+                optionButtons.forEach(btn => {
                     btn.disabled = true;
-                    if (btn.textContent === correctAnswer) btn.classList.add('correct');
-                    if (btn.textContent === selectedAnswer && selectedAnswer !== correctAnswer) btn.classList.add('incorrect');
+                    if (btn.textContent === correctAnswer) {
+                        btn.classList.add('correct');
+                    }
+                    if (btn.textContent === selectedAnswer && selectedAnswer !== correctAnswer) {
+                        btn.classList.add('incorrect');
+                    }
                 });
-
-                elements.result.classList.remove('hidden');
+                
+                resultElement.classList.remove('hidden');
                 
                 if (selectedAnswer === correctAnswer) {
-                    elements.resultText.textContent = '✅ Правильно!';
-                    elements.resultText.style.color = '#28a745';
+                    resultTextElement.textContent = '✅ Правильно!';
+                    resultTextElement.style.color = '#28a745';
                     score++;
                 } else {
-                    elements.resultText.textContent = '❌ Неправильно';
-                    elements.resultText.style.color = '#dc3545';
+                    resultTextElement.textContent = '❌ Неправильно';
+                    resultTextElement.style.color = '#dc3545';
                     
-                    // ЗАПОМИНАЕМ ОШИБКУ
+                    // Добавляем ошибку в список
                     const currentWord = gameWords[currentQuestionIndex];
                     if (!mistakeWords.has(currentWord.correct)) {
                         mistakes.push(currentWord);
                         mistakeWords.add(currentWord.correct);
                         saveMistakes();
-                        updateMistakesCount();
                     }
                 }
+                
                 updateStats();
             }
-
+            
             // Следующий вопрос
             function nextQuestion() {
                 currentQuestionIndex++;
                 showQuestion();
             }
-
+            
             // Завершение игры
             function endGame() {
-                clearInterval(timerInterval);
+                gameActive = false;
+                stopTimer();
                 
-                // Сохраняем лучший результат
+                // Сохраняем рекорд
                 if (score > bestScore) {
                     bestScore = score;
-                    localStorage.setItem('bestScore', bestScore);
-                    elements.bestScore.textContent = bestScore;
+                    localStorage.setItem('spellingBestScore', bestScore);
+                    bestScoreElement.textContent = bestScore;
                 }
                 
-                // Сохраняем лучшее время
-                if (score >= totalQuestions * 0.8) {
-                    if (!bestTime || totalTime < parseInt(bestTime)) {
-                        bestTime = totalTime.toString();
-                        localStorage.setItem('bestTime', bestTime);
-                    }
-                }
-                
-                // Если результат отличный (95%+), очищаем ошибки
+                // Очищаем ошибки если результат отличный
                 if (score >= totalQuestions * 0.95) {
                     const removedCount = mistakes.length;
                     mistakes = [];
                     mistakeWords.clear();
                     saveMistakes();
-                    updateMistakesCount();
                     if (removedCount > 0) {
-                        elements.resultText.textContent += `\nОтлично! ${removedCount} слов удалено из списка ошибок.`;
+                        resultTextElement.textContent += `\n🎉 Отлично! ${removedCount} слов удалено из ошибок.`;
                     }
                 }
                 
-                // Показываем итоговую статистику
-                showFinalStats();
+                optionsContainer.innerHTML = '';
+                resultElement.classList.remove('hidden');
+                resultTextElement.textContent = `Тест завершен! Результат: ${score} из ${totalQuestions}`;
+                resultTextElement.style.color = '#2c3e50';
+                nextQuestionBtn.textContent = 'Начать новую игру';
+                nextQuestionBtn.onclick = startNewGame;
             }
-
-            // Показать итоговую статистику
-            function showFinalStats() {
-                elements.optionsContainer.innerHTML = '';
-                elements.result.classList.add('hidden');
-                elements.finalStats.classList.remove('hidden');
-                
-                // Рассчитываем статистику
-                const accuracy = Math.round((score / totalQuestions) * 100);
-                const avgTime = questionTimes.length > 0 
-                    ? Math.round(questionTimes.reduce((a, b) => a + b) / questionTimes.length)
-                    : 0;
-                
-                // Заполняем статистику
-                elements.finalScore.textContent = `${score}/${totalQuestions}`;
-                elements.finalTime.textContent = formatTime(totalTime);
-                elements.avgTime.textContent = `${avgTime}с`;
-                elements.accuracy.textContent = `${accuracy}%`;
-                elements.bestTime.textContent = bestTime ? formatTime(parseInt(bestTime)) : '--:--';
-                elements.mistakesToRepeat.textContent = mistakes.length;
-                
-                // Меняем кнопку
-                elements.nextQuestionBtn.textContent = 'Начать новую игру';
-                elements.nextQuestionBtn.onclick = startNewGame;
-            }
-
+            
             // Обновление статистики
             function updateStats() {
-                elements.currentQuestion.textContent = currentQuestionIndex + 1;
-                elements.score.textContent = score;
-                elements.totalQuestions.textContent = totalQuestions;
+                currentQuestionElement.textContent = currentQuestionIndex + 1;
+                scoreElement.textContent = score;
+                totalQuestionsElement.textContent = totalQuestions;
             }
-
+            
             // Обновление прогресса
             function updateProgress() {
-                const progress = Math.round((currentQuestionIndex / totalQuestions) * 100);
-                elements.progressFill.style.width = `${progress}%`;
-                elements.progressText.textContent = `Прогресс: ${progress}%`;
+                const progress = totalQuestions > 0 ? Math.round((currentQuestionIndex / totalQuestions) * 100) : 0;
+                progressFill.style.width = `${progress}%`;
+                progressText.textContent = `Прогресс: ${progress}%`;
             }
-
+            
             // Перемешивание массива
             function shuffleArray(array) {
                 for (let i = array.length - 1; i > 0; i--) {
@@ -703,14 +727,30 @@
                 }
                 return array;
             }
-
-            // Инициализация
-            elements.nextQuestionBtn.addEventListener('click', nextQuestion);
-            elements.newGameBtn.addEventListener('click', startNewGame);
-            elements.clearMistakesBtn.addEventListener('click', clearMistakes);
             
-            // Запускаем первую игру
-            startNewGame();
+            // Настройка событий
+            function setupEventListeners() {
+                nextQuestionBtn.addEventListener('click', nextQuestion);
+                newGameBtn.addEventListener('click', startNewGame);
+                clearMistakesBtn.addEventListener('click', clearMistakes);
+                
+                // Горячие клавиши
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !resultElement.classList.contains('hidden')) {
+                        nextQuestion();
+                    }
+                    if (e.key >= '1' && e.key <= '3' && resultElement.classList.contains('hidden')) {
+                        const buttons = document.querySelectorAll('.option-btn');
+                        const index = parseInt(e.key) - 1;
+                        if (buttons[index]) {
+                            buttons[index].click();
+                        }
+                    }
+                });
+            }
+            
+            // Запуск
+            init();
         });
     </script>
 </body>
