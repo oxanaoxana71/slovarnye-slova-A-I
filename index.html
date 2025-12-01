@@ -13,6 +13,7 @@
         header p { font-size: 1.1rem; opacity: 0.9; }
         .main-content { padding: 30px; }
         
+        /* Таймер */
         .timer {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             color: white;
@@ -24,6 +25,7 @@
             font-weight: bold;
         }
         
+        /* Статистика */
         .stats {
             display: flex;
             justify-content: space-between;
@@ -62,8 +64,16 @@
         
         .question-hint {
             color: #7f8c8d;
-            margin-bottom: 25px;
+            margin-bottom: 10px;
             font-size: 1.2rem;
+        }
+        
+        #question-word {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            color: #2c3e50;
+            min-height: 60px;
+            font-weight: bold;
         }
         
         .options-container {
@@ -218,6 +228,11 @@
                 padding: 20px;
             }
             
+            #question-word {
+                font-size: 1.8rem;
+                min-height: 50px;
+            }
+            
             .option-btn {
                 padding: 12px 15px;
                 font-size: 1rem;
@@ -244,10 +259,12 @@
             <p>Выберите правильный вариант написания слова</p>
         </header>
         <div class="main-content">
+            <!-- Таймер -->
             <div class="timer">
                 <span id="timer-display">Время: 00:00</span>
             </div>
             
+            <!-- Статистика -->
             <div class="stats">
                 <div class="stat-item">
                     <span class="stat-number" id="current-question">1</span>
@@ -277,6 +294,9 @@
             <div class="question-card">
                 <p class="question-hint">Выберите правильный вариант написания:</p>
                 
+                <!-- Элемент для отображения слова (оставлен пустым, чтобы не показывать правильный ответ) -->
+                <h2 id="question-word"></h2>
+                
                 <div class="options-container" id="options-container">
                 </div>
                 
@@ -295,6 +315,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Элементы
+            const questionWordElement = document.getElementById('question-word');
             const optionsContainer = document.getElementById('options-container');
             const resultElement = document.getElementById('result');
             const resultTextElement = document.getElementById('result-text');
@@ -309,20 +331,23 @@
             const clearMistakesBtn = document.getElementById('clear-mistakes-btn');
             const timerDisplay = document.getElementById('timer-display');
             
+            // Переменные игры
             let currentQuestionIndex = 0;
             let score = 0;
             const totalQuestions = 30;
             let gameWords = [];
-            let mistakes = [];
-            let mistakeWords = new Set();
+            let mistakes = []; // Слова с ошибками
+            let mistakeWords = new Set(); // Для быстрой проверки
             let gameActive = false;
             let timerInterval = null;
             let startTime = null;
             let totalTime = 0;
             let bestScore = localStorage.getItem('spellingBestScore') || 0;
             
+            // Обновляем рекорд при загрузке
             bestScoreElement.textContent = bestScore;
             
+            // СЛОВАРЬ
             const vocabulary = [
                 { correct: "абитуриент", options: ["абитуриент", "абетуриент", "обитуриент"] },
                 { correct: "абонемент", options: ["абонемент", "обонемент", "абанемент"] },
@@ -478,6 +503,7 @@
                 { correct: "кардинальный", options: ["кардинальный", "координальный", "кординальный"] }
             ];
             
+            // ТАЙМЕР
             function startTimer() {
                 if (timerInterval) clearInterval(timerInterval);
                 startTime = Date.now();
@@ -499,6 +525,7 @@
                 }
             }
             
+            // Загрузка ошибок из localStorage
             function loadMistakes() {
                 const saved = localStorage.getItem('spellingMistakes');
                 if (saved) {
@@ -507,53 +534,78 @@
                 }
             }
             
+            // Сохранение ошибок
             function saveMistakes() {
                 localStorage.setItem('spellingMistakes', JSON.stringify(mistakes));
             }
             
+            // Очистка ошибок
             function clearMistakes() {
                 mistakes = [];
                 mistakeWords.clear();
                 saveMistakes();
                 alert('Ошибки очищены!');
+                // Перезапускаем игру для обновления списка слов
                 startNewGame();
             }
             
+            // Инициализация
             function init() {
                 loadMistakes();
                 startNewGame();
                 setupEventListeners();
             }
             
+            // Начало новой игры
             function startNewGame() {
+                // Останавливаем таймер
                 stopTimer();
+                
+                // Сброс переменных игры
                 currentQuestionIndex = 0;
                 score = 0;
                 totalTime = 0;
                 gameActive = true;
+                
+                // Выбираем слова для игры
                 gameWords = getGameWords();
+                
+                // Сброс UI
                 updateStats();
                 showQuestion();
                 resultElement.classList.add('hidden');
                 timerDisplay.textContent = 'Время: 00:00';
                 nextQuestionBtn.textContent = 'Следующий вопрос';
                 nextQuestionBtn.onclick = nextQuestion;
+                
+                // Запуск таймера
                 startTimer();
             }
             
+            // Получение слов для игры
             function getGameWords() {
                 let words = [];
+                
+                // 1. Добавляем слова с ошибками (до 10)
                 if (mistakes.length > 0) {
                     const mistakeCount = Math.min(mistakes.length, 10);
                     const shuffledMistakes = shuffleArray([...mistakes]).slice(0, mistakeCount);
                     words.push(...shuffledMistakes);
                 }
+                
+                // 2. Добавляем случайные слова до 30
                 const needed = totalQuestions - words.length;
-                const availableWords = vocabulary.filter(word => !mistakeWords.has(word.correct));
+                
+                // Слова, которые не являются ошибками
+                const availableWords = vocabulary.filter(word => 
+                    !mistakeWords.has(word.correct)
+                );
+                
                 if (availableWords.length >= needed) {
                     const randomWords = shuffleArray([...availableWords]).slice(0, needed);
                     words.push(...randomWords);
                 } else {
+                    // Если мало доступных слов, берем любые
                     words.push(...availableWords);
                     const remaining = totalQuestions - words.length;
                     if (remaining > 0) {
@@ -561,23 +613,33 @@
                         words.push(...extraWords);
                     }
                 }
+                
+                // Перемешиваем все слова
                 return shuffleArray(words);
             }
             
+            // Показать вопрос
             function showQuestion() {
                 if (currentQuestionIndex >= totalQuestions) {
                     endGame();
                     return;
                 }
+                
                 const currentWord = gameWords[currentQuestionIndex];
+                
+                // Больше НЕ показываем правильное слово под подсказкой
+                questionWordElement.textContent = "";
+                
                 const shuffledOptions = shuffleArray([...currentWord.options]);
                 renderOptions(shuffledOptions, currentWord.correct);
                 resultElement.classList.add('hidden');
                 updateProgress();
             }
             
+            // Отображение вариантов
             function renderOptions(options, correctAnswer) {
                 optionsContainer.innerHTML = '';
+                
                 options.forEach(option => {
                     const button = document.createElement('button');
                     button.className = 'option-btn';
@@ -587,8 +649,10 @@
                 });
             }
             
+            // Проверка ответа
             function checkAnswer(selectedAnswer, correctAnswer) {
                 const optionButtons = document.querySelectorAll('.option-btn');
+                
                 optionButtons.forEach(btn => {
                     btn.disabled = true;
                     if (btn.textContent === correctAnswer) {
@@ -598,7 +662,9 @@
                         btn.classList.add('incorrect');
                     }
                 });
+                
                 resultElement.classList.remove('hidden');
+                
                 if (selectedAnswer === correctAnswer) {
                     resultTextElement.textContent = '✅ Правильно!';
                     resultTextElement.style.color = '#28a745';
@@ -606,36 +672,38 @@
                 } else {
                     resultTextElement.textContent = '❌ Неправильно';
                     resultTextElement.style.color = '#dc3545';
+                    
+                    // Добавляем ошибку в список
                     const currentWord = gameWords[currentQuestionIndex];
                     if (!mistakeWords.has(currentWord.correct)) {
                         mistakes.push(currentWord);
                         mistakeWords.add(currentWord.correct);
                         saveMistakes();
                     }
-               function updateStats() {
-           // Используем currentQuestionIndex + 1 для отображения
-           currentQuestionElement.textContent = currentQuestionIndex + 1;
-           scoreElement.textContent = score;
-          totalQuestionsElement.textContent = totalQuestions;
- 
+                }
+                
+                updateStats();
             }
             
-          function nextQuestion() {
-          currentQuestionIndex++;
-        // Обновляем статистику перед показом следующего вопроса
-        updateStats();
-        updateProgress();
-     showQuestion();
-              }
+            // Следующий вопрос
+            function nextQuestion() {
+                currentQuestionIndex++;
+                showQuestion();
+            }
             
+            // Завершение игры
             function endGame() {
                 gameActive = false;
                 stopTimer();
+                
+                // Сохраняем рекорд
                 if (score > bestScore) {
                     bestScore = score;
                     localStorage.setItem('spellingBestScore', bestScore);
                     bestScoreElement.textContent = bestScore;
                 }
+                
+                // Очищаем ошибки если результат отличный
                 if (score >= totalQuestions * 0.95) {
                     const removedCount = mistakes.length;
                     mistakes = [];
@@ -645,7 +713,8 @@
                         resultTextElement.textContent += `\n🎉 Отлично! ${removedCount} слов удалено из ошибок.`;
                     }
                 }
-                               optionsContainer.innerHTML = '';
+                
+                optionsContainer.innerHTML = '';
                 resultElement.classList.remove('hidden');
                 resultTextElement.textContent = `Тест завершен! Результат: ${score} из ${totalQuestions}`;
                 resultTextElement.style.color = '#2c3e50';
@@ -653,19 +722,21 @@
                 nextQuestionBtn.onclick = startNewGame;
             }
             
-           function updateStats() {
-    // Используем currentQuestionIndex + 1 для отображения
-    currentQuestionElement.textContent = currentQuestionIndex + 1;
-    scoreElement.textContent = score;
-    totalQuestionsElement.textContent = totalQuestions;
-}
+            // Обновление статистики
+            function updateStats() {
+                currentQuestionElement.textContent = currentQuestionIndex + 1;
+                scoreElement.textContent = score;
+                totalQuestionsElement.textContent = totalQuestions;
+            }
             
+            // Обновление прогресса
             function updateProgress() {
                 const progress = totalQuestions > 0 ? Math.round((currentQuestionIndex / totalQuestions) * 100) : 0;
                 progressFill.style.width = `${progress}%`;
                 progressText.textContent = `Прогресс: ${progress}%`;
             }
             
+            // Перемешивание массива
             function shuffleArray(array) {
                 for (let i = array.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -674,10 +745,13 @@
                 return array;
             }
             
+            // Настройка событий
             function setupEventListeners() {
                 nextQuestionBtn.addEventListener('click', nextQuestion);
                 newGameBtn.addEventListener('click', startNewGame);
                 clearMistakesBtn.addEventListener('click', clearMistakes);
+                
+                // Горячие клавиши
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' && !resultElement.classList.contains('hidden')) {
                         nextQuestion();
@@ -692,9 +766,11 @@
                 });
             }
             
+            // Запуск
             init();
         });
     </script>
 </body>
 </html>
+
 
